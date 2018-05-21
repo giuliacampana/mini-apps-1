@@ -12,25 +12,44 @@ var playerO = false;
 var board = document.getElementById("board");
 var rows = board.children[0].children;
 
+var movesCounter = 0;
+
 for (var i = 0; i < rows.length; i++) {
 
   for (var j = 0; j < rows[i].children.length; j++) {
   	var square = rows[i].children[j];
 
-  	square.addEventListener('click', function(event) {
-  	  if (playerX && event.target.innerHTML === '') {
+   
+	square.addEventListener('click', function(event) {
+
+	  if (movesCounter === 9) {
+	  	console.log('game over!');
+	  	return;
+	  }
+
+  	  // playerX makes a move:
+  	  if (playerX && event.target.innerHTML === '' && movesCounter <= 9) {
   	    event.target.innerHTML = 'X';
   	    playerX = false;
   	    playerO = true;
+  	    movesCounter++;
 
-  	  } else if (playerO && event.target.innerHTML === '') {
+  	  // playerO makes a move:
+  	  } else if (playerO && event.target.innerHTML === '' && movesCounter <= 9) {
   	    event.target.innerHTML = 'O';
   	    playerX = true;
   	    playerO = false;
+  	    movesCounter++
   	  }
-  	});
+
+  	  console.log('movesCounter ', movesCounter);
+	});
   }
 }
+
+
+
+
 
 
 
