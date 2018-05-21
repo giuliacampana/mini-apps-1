@@ -2,50 +2,117 @@
 var playerX = true;
 var playerO = false;
 
-// adds a piece to the board:
-
-// Before placing an X or O, ensure the clicked board square is empty. If the position is already occupied, don't place an X or O and do not move on to the next player's turn.
-// After each play, look for 3 in a row, either diagonally, horizontally and vertically. Also be sure to check to see if the board is full.
-// If either condition is met, display a message and do not allow any additional plays.
-
 
 var board = document.getElementById("board");
 var rows = board.children[0].children;
 
-var movesCounter = 0;
+var game = function() {
+  var movesCounter = 0;
 
-for (var i = 0; i < rows.length; i++) {
+	for (var i = 0; i < rows.length; i++) {
+	  for (var j = 0; j < rows[i].children.length; j++) {
 
-  for (var j = 0; j < rows[i].children.length; j++) {
-  	var square = rows[i].children[j];
+	  	var square = rows[i].children[j];
+	   
+		square.addEventListener('click', function(event) {
+		  // var virtualBoard = [[0, 0, 0], 
+				// 			  [0, 0, 0], 
+				// 			  [0, 0, 0]];
 
-   
-	square.addEventListener('click', function(event) {
+	  	  // playerX makes a move:
+	  	  if (playerX && event.target.innerHTML === '' && movesCounter <= 9) {
+	  	    event.target.innerHTML = 'X';
+	  	    playerX = false;
+	  	    playerO = true;
+	  	    movesCounter++;
+	  	    var outcome = rowWins();
+	  	    console.log(outcome);
 
-	  if (movesCounter === 9) {
-	  	console.log('game over!');
-	  	return;
+
+	  	    // game ends if all squares are filled
+	  	    // since game always begins with playerX's move, game always ends with playerX's move
+	  	    if (movesCounter === 9) {
+	  	      var end = document.getElementById("end");
+		  	  end.style.display = "block";
+		  	  return;
+	  	    }
+
+	  	  // playerO makes a move:
+	  	  } else if (playerO && event.target.innerHTML === '' && movesCounter <= 9) {
+	  	    event.target.innerHTML = 'O';
+	  	    playerX = true;
+	  	    playerO = false;
+	  	    movesCounter++
+	  	    var outcome = rowWins();
+	  	    console.log(outcome);
+	  	  }
+
+	  	  console.log('movesCounter ', movesCounter);
+		});	
 	  }
+	}
+};
 
-  	  // playerX makes a move:
-  	  if (playerX && event.target.innerHTML === '' && movesCounter <= 9) {
-  	    event.target.innerHTML = 'X';
-  	    playerX = false;
-  	    playerO = true;
-  	    movesCounter++;
+var rowWins = function() {
+  for (var i = 0; i < rows.length; i++) {
 
-  	  // playerO makes a move:
-  	  } else if (playerO && event.target.innerHTML === '' && movesCounter <= 9) {
-  	    event.target.innerHTML = 'O';
-  	    playerX = true;
-  	    playerO = false;
-  	    movesCounter++
+    var rowContent = 0;
+
+    for (var j = 0; j < rows[i].children.length; j++) {
+  	  if (rows[i].children[j].textContent === 'X') {
+  	  	// console.log(rows[i].children[j].textContent)
+        rowContent += 1;
+        console.log(rowContent)
+  	  } else if (rows[i].children[j].textContent === 'O') {
+  	    rowContent += 0;
+  	  } else {
+  	  	continue;
   	  }
 
-  	  console.log('movesCounter ', movesCounter);
-	});
+  	  if (rowContent === 3) {
+  	  	return 1;
+  	  } else if (rowContent === 0) {
+  	  	return 0;
+  	  } else {
+  	  	continue;
+  	  }
+    }
+    console.log('rowContent after inner for loop ', rowContent);
   }
-}
+  return -1; 
+};
+
+game();
+
+
+
+
+
+
+// var next = function() {
+//       var rowSum = rowContent.reduce(function(a, b) { return a + b; });
+//       if (rowSum === 3) {
+//   	    return 1;
+//       } else if (rowSum === 0) {
+//   	    return 0;
+//       } else {
+//   	    continue;
+//       }
+//       return -1;
+//     }
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
