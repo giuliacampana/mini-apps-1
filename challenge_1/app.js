@@ -1,23 +1,39 @@
-var playerX = true;
-var playerO = false;
-
-
-var board = document.getElementById("board");
-var rows = board.children[0].children;
-var movesCounter = 0;
+// GAME OBJECTS:
 
 var virtualBoard = [0, 0, 0, 
 					0, 0, 0, 
 					0, 0, 0];
 
-// end result buttons:
-var end = document.getElementById("end");
-var x = document.getElementById("x");
-var o = document.getElementById("o");
+var Game = function() {
+  this.playerX = true;
+  this.playerO = false;
+  this.movesCounter = 0;
+};
 
-var checkRows = function() {
+Game.prototype.reset = function() {
+  this.playerX = true;
+  this.playerO = false;
+  this.movesCounter = 0;
+};
+
+Game.prototype.xMove = function(index) {
+  virtualBoard[index] = 'X';
+  this.playerX = false;
+  this.playerO = true;
+  this.movesCounter++;
+};
+
+Game.prototype.oMove = function(index) {
+  virtualBoard[index] = 'O';
+  this.playerO = false;
+  this.playerX = true;
+  this.movesCounter++;
+};
+
+Game.prototype.checkRows = function() {
   var rowSum = '';
   for (var i = 0; i < virtualBoard.length; i+= 3) {
+
   	rowSum = virtualBoard[i] + virtualBoard[i + 1] + virtualBoard[i + 2];
 
   	if (rowSum === 'XXX') {
@@ -28,9 +44,9 @@ var checkRows = function() {
   	}
   }
   return -1;
-};
+}
 
-var checkColumns = function() {
+Game.prototype.checkColumns = function() {
   var colSum = '';
   for (var i = 0; i < virtualBoard.length; i++) {
   	colSum = virtualBoard[i] + virtualBoard[i + 3] + virtualBoard[i + 6];
@@ -49,7 +65,7 @@ var checkColumns = function() {
   return -1;
 };
 
-var checkDiagRightToLeft = function() {
+Game.prototype.checkDiagRightToLeft = function() {
   var diagSum = virtualBoard[0] + virtualBoard[4] + virtualBoard[8];
 
   if (diagSum === 'XXX') {
@@ -61,7 +77,7 @@ var checkDiagRightToLeft = function() {
   return -1;
 };
 
-var checkDiagLeftToRight = function() {
+Game.prototype.checkDiagLeftToRight = function() {
   var diagSum = virtualBoard[2] + virtualBoard[4] + virtualBoard[6];
 
   if (diagSum === 'XXX') {
@@ -73,98 +89,89 @@ var checkDiagLeftToRight = function() {
   return -1;
 };
 
-var game = function() {
-  
-  document.getElementById("reset").addEventListener('click', function(event) {
-    virtualBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    movesCounter = 0;
-    playerX = true;
-	  playerO = false;
-    end.style.display = "none";
-    x.style.display = "none";
-    o.style.display = "none";
+Game.prototype.checkForWins = function() {
+  var rowCheck = this.checkRows();
+  var columnCheck = this.checkColumns();
+  var diagCheck1 = this.checkDiagRightToLeft();
+  var diagCheck2 = this.checkDiagLeftToRight();
 
-
-    for (var i = 0; i < rows.length; i++) {
-      for (var j = 0; j < rows[i].children.length; j++) {
-      	if (rows[i].children[j].innerHTML !== '') {
-      	  rows[i].children[j].innerHTML = '';
-      	}
-      }
-    }
-  });
-
-	for (var i = 0; i < rows.length; i++) {
-	  for (var j = 0; j < rows[i].children.length; j++) {
-
-	  	var square = rows[i].children[j];
-	   
-		square.addEventListener('click', function(event) {
-	      // console.log('this is the square: ', square);
-
-	  	  // playerX makes a move:
-	  	  if (playerX && event.target.innerHTML === '' && movesCounter <= 9) {
-	  	    event.target.innerHTML = 'X';
-	  	    playerX = false;
-	  	    playerO = true;
-	  	    movesCounter++;
-	  	    virtualBoard[this.id] = 'X';
-
-	  	    // check for wins
-	  	    var rowCheck = checkRows();
-	  	    var columnCheck = checkColumns();
-	  	    var diagCheck1 = checkDiagRightToLeft();
-	  	    var diagCheck2 = checkDiagLeftToRight();
- 
-	  	    if (rowCheck === 1 || columnCheck === 1 || diagCheck1 === 1 || diagCheck2 === 1) {
-	  	      x.style.display = "block";
-	  	      return;
-	  	    }
-
-	  	    // game ends if all squares are filled and no one has won
-	  	    // since game always begins with playerX's move, game always ends with playerX's move
-	  	    if (movesCounter === 9) {
-		  	    end.style.display = "block";
-		  	    return;
-	  	    }
-
-	  	  // playerO makes a move:
-	  	  } else if (playerO && event.target.innerHTML === '' && movesCounter <= 9) {
-	  	    event.target.innerHTML = 'O';
-	  	    playerX = true;
-	  	    playerO = false;
-	  	    movesCounter++;
-	  	    virtualBoard[this.id] = 'O';
-	  	    var rowCheck = checkRows();
-	  	    var columnCheck = checkColumns();
-	  	    var diagCheck1 = checkDiagRightToLeft();
-	  	    var diagCheck2 = checkDiagLeftToRight();
-
-	  	    if (rowCheck === 0 || columnCheck === 0 || diagCheck1 === 0 || diagCheck2 === 0) {
-	  	      o.style.display = "block";
-	  	    }
-
-	  	  }
-		});	
-	  }
-	}
+  if (rowCheck === 1 || columnCheck === 1 || diagCheck1 === 1 || diagCheck2 === 1) {
+  	x.style.display = "block";
+  	return true;
+  } else if (rowCheck === 0 || columnCheck === 0 || diagCheck1 === 0 || diagCheck2 === 0) {
+  	o.style.display = "block";
+  	return true;
+  } else if (this.movesCounter === 9) {
+  	end.style.display = "block";
+    return true;
+  }
+  return false;
 };
 
 
-game();
+// CREATE GAME:
+var game = new Game();
 
 
 
+// DOM ELEMENTS:
+
+// End result messages
+var end = document.getElementById("end");
+var x = document.getElementById("x");
+var o = document.getElementById("o");
+
+// HTML table
+var board = document.getElementById("board");
+var rows = board.children[0].children;
 
 
 
+// CLICK EVENTS:
 
+// Click "New Game" button
+document.getElementById("reset").addEventListener('click', function(event) {
+  virtualBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  end.style.display = "none";
+  x.style.display = "none";
+  o.style.display = "none";
 
+  // clear HTML table
+  for (var i = 0; i < rows.length; i++) {
+    for (var j = 0; j < rows[i].children.length; j++) {
+	  if (rows[i].children[j].innerHTML !== '') {
+	  	rows[i].children[j].innerHTML = '';
+	  }
+    }
+  }
+  game.reset();
+});
 
+// Make a move on the board
+for (var i = 0; i < rows.length; i++) {
+  for (var j = 0; j < rows[i].children.length; j++) {
 
+  	var square = rows[i].children[j];
 
+  	square.addEventListener('click', function(event) {
 
+  	  if (game.playerX && virtualBoard[this.id] === 0 && game.movesCounter <= 9) {
+  	  	game.xMove(this.id);
+  	  	event.target.innerHTML = 'X';
+  	  	if (game.checkForWins()) {
+  	  	  return;
+  	  	}
 
+  	  } else if (game.playerO && virtualBoard[this.id] === 0 && game.movesCounter <= 9) {
+  	  	game.oMove(this.id);
+  	  	event.target.innerHTML = 'O';
+  	  	if (game.checkForWins()) {
+  	  	  return;
+  	  	}
+  	  }
+  	});
+  }
+}
 
 
 
