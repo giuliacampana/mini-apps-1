@@ -1,0 +1,44 @@
+body {
+	font-family: 'Raleway', sans-serif;
+	color: white;
+	background-color: #08739A;
+}
+
+h1 {
+	letter-spacing: 6px;
+	text-align: center;
+	font-size: 46px;
+}
+
+#reset {
+	padding: 14px;
+	font-size: 20px;
+	letter-spacing: 2px;
+	border: 1px solid #000000;
+	border-radius: 7px;
+	color: #08739A;
+	background-color: #A5DBEF;
+	margin-left: 640px;
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+
+#board {
+	margin-left: 470px;
+}
+tr {
+	border: 1px solid #000000;
+	padding: 75px;
+}
+
+td {
+	border: 1px solid #000000;
+	padding: 75px;
+}
+
+.results {
+	letter-spacing: 6px;
+	text-align: center;
+	font-size: 46px;
+}
+

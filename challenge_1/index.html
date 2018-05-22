@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="stylesheet" href="styles.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<title>Tic Tac Toe</title>
 </head>
 <body>
   <h1>Tic Tac Toe</h1>
   <button id="reset">New Game</button>
-  <table id="board" border="1" width="400" height="400">
+  <table id="board">
   	<tr>
   		<td id="0"></td>
   		<td id="1"></td>
@@ -23,10 +25,11 @@
   		<td id="8"></td>
   	</tr>
   </table>
-  <div id="end" style="display: none; font-size: 30px">It's a tie!</div>
-  <div id="x" style="display: none; font-size: 30px">Player X wins!</div>
-  <div id="o" style="display: none; font-size: 30px">Player O wins!</div>
+  <div class="results">
+  	<div id="end" style="display: none; font-size: 30px">It's a tie!</div>
+    <div id="x" style="display: none; font-size: 30px">Player X wins!</div>
+    <div id="o" style="display: none; font-size: 30px">Player O wins!</div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
-

@@ -1,4 +1,3 @@
-// keeps track of whose turn it is:
 var playerX = true;
 var playerO = false;
 
