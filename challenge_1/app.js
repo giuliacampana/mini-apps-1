@@ -5,6 +5,7 @@ var playerO = false;
 
 var board = document.getElementById("board");
 var rows = board.children[0].children;
+var movesCounter = 0;
 
 var virtualBoard = [0, 0, 0, 
 					0, 0, 0, 
@@ -69,7 +70,21 @@ var checkDiagLeftToRight = function() {
 };
 
 var game = function() {
-  var movesCounter = 0;
+  
+  document.getElementById("reset").addEventListener('click', function(event) {
+    virtualBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    movesCounter = 0;
+    playerX = true;
+	playerO = false;
+
+    for (var i = 0; i < rows.length; i++) {
+      for (var j = 0; j < rows[i].children.length; j++) {
+      	if (rows[i].children[j].innerHTML !== '') {
+      	  rows[i].children[j].innerHTML = '';
+      	}
+      }
+    }
+  });
 
 	for (var i = 0; i < rows.length; i++) {
 	  for (var j = 0; j < rows[i].children.length; j++) {
@@ -130,103 +145,6 @@ var game = function() {
 	}
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var rowWins = function() {
-//   for (var i = 0; i < rows.length; i++) {
-
-//     var rowContent = 0;
-
-//     for (var j = 0; j < rows[i].children.length; j++) {
-//   	  if (rows[i].children[j].textContent === 'X') {
-//   	  	// console.log(rows[i].children[j].textContent)
-//         rowContent += 1;
-//         console.log(rowContent)
-//   	  } else if (rows[i].children[j].textContent === 'O') {
-//   	    rowContent += 0;
-//   	  } else {
-//   	  	continue;
-//   	  }
-
-//   	  if (rowContent === 3) {
-//   	  	return 1;
-//   	  } else if (rowContent === 0) {
-//   	  	return 0;
-//   	  } else {
-//   	  	continue;
-//   	  }
-//     }
-//     console.log('rowContent after inner for loop ', rowContent);
-//   }
-//   return -1; 
-// };
-
-
-
-// var sum = function(array) {
-//   return array.reduce(function(accum, curr) {
-//   	return accum + curr;
-//   });
-// }
-
-
-// var rowWins = function(move, row, square) {
-
-//   if (move === 'X') {
-// 	virtualBoard[row][square] = 1;
-//   } else if (move === 'O') {
-// 	virtualBoard[row][square] = 2;
-//   }
-//   for (var r = 0; r < virtualBoard.length; r++) {
-//   	console.log(virtualBoard[r]);
-//   	// if (sum(virtualBoard[r]) === 3) {
-//   	//   return 1;
-//   	// } else if (sum(virtualBoard[r]) === 6) {
-//   	//   return 0;
-//   	// } else {
-//    //    continue;
-//   	// }
-//   }
-//   return -1;
-// };
-
-// var checkRow1 = function(move) {
-//   var row1 = rows[0];
-//   var xPoints = 0;
-//   var oPoints = 0;
-
-//   for (var c = 0; c < row1.length; c++) {
-// 	if (row1.children[c].textContent === 'X') {
-// 	  xPoints++;
-// 	  console.log(xPoints);
-// 	} else if (row1.children[c].textContent === 'O') {
-// 	  oPoints++;
-// 	  console.log(oPoints);
-//     }
-//   }
-
-//   if (xPoints === 3) {
-//   	return 1;
-//   } else if (oPoints === 3) {
-//   	return 0;
-//   } else {
-//   	return -1;
-//   }
-// }
 
 game();
 
