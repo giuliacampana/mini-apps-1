@@ -10,6 +10,11 @@ var virtualBoard = [0, 0, 0,
 					0, 0, 0, 
 					0, 0, 0];
 
+// end result buttons:
+var end = document.getElementById("end");
+var x = document.getElementById("x");
+var o = document.getElementById("o");
+
 var checkRows = function() {
   var rowSum = '';
   for (var i = 0; i < virtualBoard.length; i+= 3) {
@@ -74,7 +79,11 @@ var game = function() {
     virtualBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     movesCounter = 0;
     playerX = true;
-	playerO = false;
+	  playerO = false;
+    end.style.display = "none";
+    x.style.display = "none";
+    o.style.display = "none";
+
 
     for (var i = 0; i < rows.length; i++) {
       for (var j = 0; j < rows[i].children.length; j++) {
@@ -108,7 +117,6 @@ var game = function() {
 	  	    var diagCheck2 = checkDiagLeftToRight();
  
 	  	    if (rowCheck === 1 || columnCheck === 1 || diagCheck1 === 1 || diagCheck2 === 1) {
-	  	      var x = document.getElementById("x");
 	  	      x.style.display = "block";
 	  	      return;
 	  	    }
@@ -116,9 +124,8 @@ var game = function() {
 	  	    // game ends if all squares are filled and no one has won
 	  	    // since game always begins with playerX's move, game always ends with playerX's move
 	  	    if (movesCounter === 9) {
-	  	      var end = document.getElementById("end");
-		  	  end.style.display = "block";
-		  	  return;
+		  	    end.style.display = "block";
+		  	    return;
 	  	    }
 
 	  	  // playerO makes a move:
@@ -134,7 +141,6 @@ var game = function() {
 	  	    var diagCheck2 = checkDiagLeftToRight();
 
 	  	    if (rowCheck === 0 || columnCheck === 0 || diagCheck1 === 0 || diagCheck2 === 0) {
-	  	      var o = document.getElementById("o");
 	  	      o.style.display = "block";
 	  	    }
 
