@@ -7,7 +7,7 @@ body {
 h1 {
 	letter-spacing: 6px;
 	text-align: center;
-	font-size: 46px;
+	font-size: 40px;
 }
 
 #reset {
@@ -23,23 +23,35 @@ h1 {
 	cursor: pointer;
 }
 
-#board {
-	margin-left: 470px;
-	font-size: 30px;
+#xwins {
+	font-size: 20px;
+	text-align: center;
 }
+
+#owins {
+	font-size: 20px;
+	text-align: center;
+}
+
+#board {
+	margin-left: 510px;
+	font-size: 40px;
+	display: inline-block;
+}
+
 tr {
 	border: 1px solid #000000;
-	padding: 75px;
+	padding: 60px;
 }
 
 td {
 	border: 1px solid #000000;
-	padding: 75px;
+	padding: 60px;
 }
 
 .results {
 	letter-spacing: 6px;
 	text-align: center;
-	font-size: 46px;
+	font-size: 40px;
 }
 

@@ -8,27 +8,34 @@ var Game = function() {
   this.playerX = true;
   this.playerO = false;
   this.movesCounter = 0;
+  this.xWins = 0;
+  this.oWins = 0;
 };
 
 Game.prototype.reset = function() {
-  this.playerX = true;
-  this.playerO = false;
+  // this.playerX = true;
+  // this.playerO = false;
   this.movesCounter = 0;
 };
 
-Game.prototype.xMove = function(index) {
-  virtualBoard[index] = 'X';
-  this.playerX = false;
-  this.playerO = true;
-  this.movesCounter++;
-};
+Game.prototype.move = function(index) {
+  var addTextTo = document.getElementById('' + index);
 
-Game.prototype.oMove = function(index) {
-  virtualBoard[index] = 'O';
-  this.playerO = false;
-  this.playerX = true;
+  if (this.playerX && virtualBoard[index] === 0 && this.movesCounter <= 9) {
+  	virtualBoard[index] = 'X';
+  	this.playerX = false;
+  	this.playerO = true;
+  	addTextTo.innerHTML = 'X';
+
+  } else if (this.playerO && virtualBoard[index] === 0 && this.movesCounter <= 9) {
+  	virtualBoard[index] = 'O';
+    this.playerO = false;
+    this.playerX = true;
+    addTextTo.innerHTML = 'O';
+  }
+
   this.movesCounter++;
-};
+}
 
 Game.prototype.checkRows = function() {
   var rowSum = '';
@@ -57,7 +64,6 @@ Game.prototype.checkColumns = function() {
   	if (colSum === 'OOO') {
   	  return 0; // 'O' wins
   	}
-
   	if (i === 2) {
   	  break;
   	}
@@ -97,16 +103,44 @@ Game.prototype.checkForWins = function() {
 
   if (rowCheck === 1 || columnCheck === 1 || diagCheck1 === 1 || diagCheck2 === 1) {
   	x.style.display = "block";
+  	this.xWins += 1;
+  	this.updateWinCountOnPage();
+  	this.chooseFirstPlayer('X');
   	return true;
+
   } else if (rowCheck === 0 || columnCheck === 0 || diagCheck1 === 0 || diagCheck2 === 0) {
   	o.style.display = "block";
+  	this.oWins += 1;
+  	this.updateWinCountOnPage();
+  	this.chooseFirstPlayer('O');
   	return true;
+
   } else if (this.movesCounter === 9) {
   	end.style.display = "block";
+  	this.updateWinCountOnPage();
+  	this.chooseFirstPlayer('X');
     return true;
   }
   return false;
 };
+
+Game.prototype.updateWinCountOnPage = function() {
+  var playerXWins = document.getElementById("xwins");
+  var playerOWins = document.getElementById("owins");
+
+  playerXWins.innerHTML = "Player X Wins: " + this.xWins;
+  playerOWins.innerHTML = "Player O Wins: " + this.oWins;
+};
+
+Game.prototype.chooseFirstPlayer = function(winner) {
+  if (winner === 'X') {
+  	this.playerX = true;
+  	this.playerO = false;
+  } else if (winner === 'O') {
+  	this.playerX = false;
+  	this.playerO = true;
+  }
+}
 
 
 // CREATE GAME:
@@ -154,21 +188,12 @@ for (var i = 0; i < rows.length; i++) {
   	var square = rows[i].children[j];
 
   	square.addEventListener('click', function(event) {
+  	  game.move(this.id);
 
-  	  if (game.playerX && virtualBoard[this.id] === 0 && game.movesCounter <= 9) {
-  	  	game.xMove(this.id);
-  	  	event.target.innerHTML = 'X';
-  	  	if (game.checkForWins()) {
-  	  	  return;
-  	  	}
+	  if (game.checkForWins()) {
+	  	return;
+	  }
 
-  	  } else if (game.playerO && virtualBoard[this.id] === 0 && game.movesCounter <= 9) {
-  	  	game.oMove(this.id);
-  	  	event.target.innerHTML = 'O';
-  	  	if (game.checkForWins()) {
-  	  	  return;
-  	  	}
-  	  }
   	});
   }
 }
