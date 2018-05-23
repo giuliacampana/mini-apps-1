@@ -6,6 +6,7 @@ var app = express();
 app.use(express.static('client'));
 app.use(bodyParser.json());
 
+// JSON-CSV converter begins here:
 var getKeys = function(data) {
   var keys = [];
   for (var key in data) {
@@ -49,12 +50,16 @@ var formatData = function(data) {
   }
 
   return values.join('\n');
-}
+} // converter ends here
 
+// stores data
+var storage = [];
 
-app.post('/', function(req, res) {
-  var csv = formatData(req.body);
-  res.send(csv);
+// handles post requests
+app.post('/', function(req, res, next) {
+    var csv = formatData(req.body);
+    storage.push(csv);
+    res.send(csv);
 });
 
 http.createServer(app).listen(1337);
