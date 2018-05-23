@@ -1,0 +1,10 @@
+body {
+  font-family: "Lucida Console", sans-serif;
+  text-align: center;
+  color: #2A2A2A;
+}
+
+#submit {
+  font-family: "Lucida Console", sans-serif;
+  padding: 5px;
+}

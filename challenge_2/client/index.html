@@ -1,2 +1,18 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<link rel="stylesheet" href="styles.css">
+	<title>CSV Report Generator</title>
+</head>
+<body>
+  <h1>CSV Report Generator</h1>
+  <form>
+  	<textarea id="input" rows="30" cols="100" display="block"></textarea>
+  	<button id="submit" display="block" onclick="app.onSubmitClick()" display="block">Convert to CSV</button>
+  	<textarea id="output" rows="30" cols="100" display="block"></textarea>
+  </form>
+  <script src="app.js"></script>
+</body>
+</html>
 
