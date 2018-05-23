@@ -1,0 +1,53 @@
+body {
+  font-family: Lucida Console, sans-serif;
+  background-color: #BEF6BA;
+}
+
+h1 {
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.checkout {
+  font-family: Lucida Console, sans-serif;
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+}
+
+.personal {
+  margin: 30px;
+}
+
+textarea {
+  font-family: Lucida Console, sans-serif;
+  font-size: 16px;
+  height: 16px;
+}
+
+.name {
+  display: inline-block;
+  left: 5%;
+  position: relative;
+}
+
+.email {
+  display: inline-block;
+  left: 15%;
+  position: relative;
+}
+
+.password {
+  display: inline-block;
+  left: 25%;
+  position: relative;
+}
+
+.next1 {
+  font-family: Lucida Console, sans-serif;
+  font-size: 16px;
+  display: block;
+  margin: 30px auto;
+  padding: 10px;
+  text-align: center;
+}
