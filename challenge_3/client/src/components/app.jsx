@@ -42,8 +42,9 @@ class Personal extends React.Component {
   	this.setState({
   	  done: true
   	});
+  	sendPostRequest({name: 'giulia'});
   }
-
+ 
   render() {
   	const onContact = this.state.done;
   	const contactNextButton = onContact ? (<Contact />
@@ -186,10 +187,7 @@ class Review extends React.Component {
   	  </div>
   	);
   }
-
 }
-
-
 
 ReactDOM.render(<App />, document.getElementById("app"));
 
