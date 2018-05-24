@@ -7,7 +7,6 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
-  console.log(req);
   console.log(req.body);
   res.send(req.body);
 });
